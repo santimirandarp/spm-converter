@@ -5,13 +5,13 @@ import { IOBuffer } from 'iobuffer';
 
 import { readHeader } from '../header';
 
-const filePath = join(__dirname, "data", "AFM", "AFM.spm")
-const buffer = new IOBuffer(readFileSync(filePath))
+const filePath = join(__dirname, 'data', 'AFM', 'AFM.spm');
+const buffer = readFileSync(filePath);
 
 describe('read header', () => {
-  
   it('return the header', () => {
-   console.log(readHeader(buffer))
+    const header = readHeader(buffer);
+    expect(header['Ciao image list']).toHaveLength(2);
+    expect(header['Scanner list']).toHaveLength(1);
   });
-
 });
