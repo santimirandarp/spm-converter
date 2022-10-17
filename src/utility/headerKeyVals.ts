@@ -20,14 +20,14 @@ export function getKeyValues(
       const res = atKeyVal.exec(currentLine);
       const key = res?.groups?.key;
       const val = res?.groups?.value;
-      if (key && val) {
+      if (key && val !== undefined) {
         subObject[key] = val.trim();
       }
     } else {
       const res = keyValue.exec(currentLine);
       const key = res?.groups?.key;
       const val = res?.groups?.value;
-      if (key && val) {
+      if (key && val !== undefined) {
         subObject[key] = val.trim();
       }
     }
