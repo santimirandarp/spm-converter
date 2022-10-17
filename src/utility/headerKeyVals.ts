@@ -10,17 +10,28 @@ export function getKeyValues(
   i: number,
 ): [SimpleObject, number] {
   const subObject: SimpleObject = {};
-  const keyValue = /.(?<key>.*?):\s*(?<value>.*)\.*/;
+  const atKeyVal = /^\\(?<key>@\d?:?.*?):\s*(?<value>.*)\.*$/i;
+  const keyValue = /^\\(?<key>.*?):\s*(?<value>.*)\.*$/;
   while (i < lines.length) {
-    const res = keyValue.exec(lines[i]);
-    const key = res?.groups?.key;
-    const val = res?.groups?.value;
-    if (key && val) {
-      subObject[key] = val.trim();
-      i++;
-    } else {
+    const currentLine = lines[i];
+    if (currentLine.startsWith('\\*')) {
       break;
+    } else if (currentLine.startsWith('\\@')) {
+      const res = atKeyVal.exec(currentLine);
+      const key = res?.groups?.key;
+      const val = res?.groups?.value;
+      if (key && val) {
+        subObject[key] = val.trim();
+      }
+    } else {
+      const res = keyValue.exec(currentLine);
+      const key = res?.groups?.key;
+      const val = res?.groups?.value;
+      if (key && val) {
+        subObject[key] = val.trim();
+      }
     }
+    i++;
   }
   return [subObject, i - 1];
 }
