@@ -15,20 +15,16 @@ Parses Bruker's Scanning Probe Microscopy (SPM) images
 
 ```js
 import { join } from 'path';
-import { fileListFromPath } from 'filelist-utils';
+import { fileCollectionFromPath } from 'filelist-utils';
 import { convert as cv } from 'spm-converter';
 
 async function run() {
   /* path to the root dir of experiments or any child */
-  const fl = fileListFromPath(join(__dirname, 'data'));
+  const fc = fileCollectionFromPath(join(__dirname, 'data'));
 
-  const experiments = await cv(fl);
+  const image = await cv(fc);
 
-  /*
- retrieves them as an array, each item is an object 
- representing the directory (stores `mps` and `mpt`)
-*/
-  return experiments;
+  return image
 }
 
 run()
